@@ -25,7 +25,7 @@
 )
 
 (defito ito-countup ()
-  "simple usage"
+  "count up action"
   (defport a1 0)
   (defport aux 1)
 
