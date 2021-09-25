@@ -1,0 +1,71 @@
+Architecture of Kamnagi
+
+1. What Kamnagi do
+ I would like to consider a system as a Web system or running on the data of many sencors.
+ Kamnagi is a simulater of the behavior of the systems.
+
+  We can consider the system is composed from many sub-systems.
+  I assume the sub-system's behavior and the structure of combining them is clear than the
+  whole system. 
+
+3. primaly data
+ 1) input data depend on time
+   a) raw data as (name value)t
+　 b) function for raw data (input t name) => value
+   c) a big table of raw data as name x time x value
+
+  A simulation depend on the primary data.
+  if a simple simulation, it is concise way that b) with given a function.
+
+  In a IT system, raw data represent as user accesses over intrnet, or as 
+  sensor data the system received.
+
+4. how to run a simulation(initial plan)
+
+    (defkamnagi name)
+    (defcompo  kamnagi name fun)
+      a components has a function maps from input to output.
+      input and output are come from channel or the whole system's in and out.
+
+    (defchannel kamnagi name (in1 in2 ...) (out1 out2 ...))
+      a channel is connect compos, n to m.
+      in and out are defined before defchannel.
+      the channel has no special behavior just connect compo, so
+      in defining a system, a compo may be required for timing delay.
+
+    (defkamnagi kamnaginame inputs outputs)
+      inputs and outputs are just port for input and output streams.
+      I intend to write a csv fioe from the input and output with time are sample data.
+    
+    special componenets
+    *timer*  () => int the value is count up. controled by runkamnagi.
+    *counter*  (n) => z  
+ 
+    (runkamnagi kamnaginame maxtime)
+     runkamnagi countup *timer* for time. and step the kamnagi definition.
+
+
+example
+    (defchannel x a x)
+     xはcomponent
+or
+
+   (defkamnagi name
+     :source ((s1 val)(s2 val) ...)
+     :channel ((c1 s1 s2)(c2 s1 s3)...)
+     :inputs (s1 ...) 
+     :output (s2 ...)
+    )
+ 
+    kamnaginameのpropertyとして各定義が保存される。
+
+
+5. how to work
+
+  1) define components
+  2) define the system on components
+  3) prepare the raw data or function
+  4) do simulation.
+    (runkamnagi maxtime systemdef data/function)
+
+

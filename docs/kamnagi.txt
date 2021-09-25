@@ -1,0 +1,8 @@
+Kamnagi is a simulater for some systems which are composed from sub systems
+
+What type of systems are simulated by Kamnagi?
+The system is composed from sub components, and the state transition depends on time lag.
+
+
+
+
