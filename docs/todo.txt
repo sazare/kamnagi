@@ -1,0 +1,25 @@
+todo kamnagi
+
++1. port
++2. compo
+    条件: 複数のcompoが同じoutputを持たない
+3. (step-compo compo inputs outputs)
+4. (check-model compos) ; 異なるcompoが同じoutputを持たない
+4. (step-model compos inputs outputs)
+5. (do-model maxcount)
+6. (make-result ports) : portsについてのtableを作る
+7. add-calender: table -> datetime x table
+    initial date
+    interval (nsec, msec, sec, min, hour, day, mon, year)
+    final is determined by do-model.maxcount
+8. how about header (time name1 name2 ...)
+6. (write-result ports) : portsについてのcsvファイルを作る
+8. about models
+   * random 部分を持つのはmodelで書く
+
+--
+model = compo* with port*
+model > instance
+
+
+

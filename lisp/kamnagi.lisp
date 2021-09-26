@@ -23,7 +23,6 @@
   `(progn 
     (defun ,name ()
       (let ((args (collectvalue ',inputs)))
-;        (format t "args=~a~%" args)
         (multiple-value-setq ,outputs (apply ,compof args))
       )
     )
@@ -39,4 +38,14 @@
   (apply name ())
 )
 
+;; step-model 
+(defun step-model (compos)
+  (loop for compo in compos do
+    (step-compo compo)  
+  )
+)
+
+
 ;;; check graph
+; all different compos have no same port with others.
+

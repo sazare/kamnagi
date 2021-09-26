@@ -1,0 +1,52 @@
+
+2021/09/26
+・ito-nstepsを追加した
+　繰り返しito-kamnagi.lispをloadすると、ito-countupの結果が狂ってエラーになった。
+　それは当然。気をつけよう
+
+　ito-nsetpsでは、一回のstep-modelで、すべてのportの計算が終わった。
+　mod1のcompoの順番を逆にすると、おきない。
+　つまり、portの値の変化が次のcompoの実行に影響してしまっている。
+　順番に依存しないようにしたいならば、
+　portの値は、step-modelを実行する前の値を使わなくてはならない。
+　それとも、これでよいと考えられるのか?　compoの順に値が波及していくところを見たいのでNO
+
+　compoの計算結果は一旦keepしておいて、step-modelのあとにそれをportに設定するのがよさそう。
+　あるいはstep-modelの前の値をbackupして、step-model/step-compoの計算中のinput側の値は
+　そこから参照するようにするか
+  一旦残しておくのはめんどうなので、propertyに置くことにしよう。
+
+　apres : あとの値、avant: 前の値
+
+　apresだと、compoの計算結果をいったんそこに置くことになる。
+　そして、skip-modelの最後にapresの値をportのvalueとして設定する。
+　このportは*portlist*でなくcompoのoutput(input)にあがっているportになるので
+  step-modelでは要素のcompoのinputまたはoutputを管理する必要がありそう。
+
+　ならば、*portlist*の全portについてこの操作をすればよい。
+　　portが10000個くらいあって、compoで使うのがそのうちの数10個だと効率が悪いが・・・
+　　
+  apresの場合は、step-modelの最後に*portlist*のすべてについて
+    multiple-value-setのとき、valueでなくproperty apresに設定し
+　　step-modelの最後に apresからvalueに設定しなおす
+
+　avantの場合は、step-modelの最初に*portlist*のすべてのportについて
+　  valueをavantに設定し、
+　　inputの値はvalueでなくavantからとってくるようにする。
+　　collectvalueの参照先をかえる。
+
+　collectvalueがすでにあるので、avantのほうが修正は少なくてよいようなきがする。
+  collectvalueはcompoの中でなく、step-modelでやらなくてはならない。
+
+　defcompoでmultiple-value-setしているところをどうにかするのかな
+
+　問題点は2つ。
+　1. step-modelの前後のどちからで値をkeepし、step-modelの期間中の順番を無効にする
+　2. step-compoもその影響をうける
+
+
+
+ 
+
+
+
