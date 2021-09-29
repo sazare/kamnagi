@@ -13,35 +13,50 @@
 )
 
 ;; compos
-(defun collectvalue (plist)
-  (loop for p in plist collect
-    (eval p)
+(defun get-befores (polist)
+  (loop for po in polist collect
+    (get po :before)
   )
 )
 
 (defmacro defcompo (name compof inputs outputs)
   `(progn 
     (defun ,name ()
-      (let ((args (collectvalue ',inputs)))
+      (let ((args (get-befores ',inputs)))
         (multiple-value-setq ,outputs (apply ,compof args))
       )
     )
     (pushnew ',name *compolist*)
 ;; set inputs, outputs, compof in plist
-    (setf (get ',name :input) ',inputs)
-    (setf (get ',name :output) ',outputs)
-    (setf (get ',name :func) ',compof)
+    (putprop ',name :input  ',inputs)
+    (putprop ',name :output ',outputs)
+    (putprop ',name :func   ',compof)
   )
 )
 
 (defun step-compo (name)
-  (apply name ())
+  (apply name ()); how to write compo about value from before
+)
+
+(defun set-before-compo (co)
+  (loop for v in (get co :input) do
+    (putprop v :before (eval v))
+  )
+)
+
+(defun set-before-model (mo)
+  (loop for co in mo do
+    (set-before-compo co)
+  )
 )
 
 ;; step-model 
-(defun step-model (compos)
-  (loop for compo in compos do
-    (step-compo compo)  
+(defun step-model (model)
+  (progn
+    (set-before-model model)
+    (loop for compo in model do
+      (step-compo compo)  
+    )
   )
 )
 

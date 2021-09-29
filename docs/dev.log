@@ -44,9 +44,32 @@
 　1. step-modelの前後のどちからで値をkeepし、step-modelの期間中の順番を無効にする
 　2. step-compoもその影響をうける
 
+** collectvaluesを作っているので、outputをbackupするよりinputをbackupするほうが多少よさそう
+
+step-model起動時のportの値を格納するプロパティ名は
+ :before
+にする。
+
+にもかかわらず、ito-nstepsの結果はかわらず
 
 
+2021/09/27
+ito-nsteps の結果がかわらないのは、beforeに設定した値をstep-compoで参照していないからだろう
+collectvaluesをget-beforesという名前にして:beforeから値をとってくるようにした。
+
+この修正で、ito-kamnagi.lispの前の方のitoで、step-compoをしていたところは
+:beforeが必要になるのでstep-modelに置き換えた
+
+
+* この修正の問題点
+　ito-loop1のように、step-model中に変更された値p32,p33をほかで参照していたら
+　その値はbeforeになってしまう。
  
+2021/09/29
+夜、寝ている時に気づいたが、今の動作で正解なので、意図を訂正した
+
+beforeという名前はよいのか、迷い中。
+
 
 
 
