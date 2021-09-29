@@ -60,6 +60,24 @@
   )
 )
 
+;; ntime-model
+(defun collect-value (ports)
+  (loop for p in ports collect (eval p))
+)
+
+(defun nstep-model (maxtime ports model)
+  (let ((logs ()))
+    (loop for i from 1 to maxtime do
+      (step-model model)
+      (push (collect-value ports)  logs)
+    )
+    (reverse logs)
+  )
+)
+
+
+
+
 
 ;;; check graph
 ; all different compos have no same port with others.

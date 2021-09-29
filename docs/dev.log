@@ -70,6 +70,37 @@ collectvaluesをget-beforesという名前にして:beforeから値をとって�
 
 beforeという名前はよいのか、迷い中。
 
+* 夜
+まず、portの名前を与えて、その値のリスト(性能情報の一行分)をlistにする。
+
+それを繰り返して、セッション中のlogsをあつめる。すなわち
+
+portの値をlistに取り出して、それをlistにpushしていく。
+play-kamnagi.lisp
+
+(defvar logs  (nstep-model 10  *portlist*  mod31))
+
+で10回回転する。
+
+ただし、tsはどうも他の変数と別の扱いをすべきなのかも。
+ts自体はどうでもいいので、日付でおきかわるから。
+portのtsでも、nstep-modelのnでもよい。
+tsをcompoで計算しなくてもよいと思う。
+でも、時間によって値が影響をうけるようなcompo/portを作りたい時はts portか
+それに似たものが必要になる。
+tsが問題なのは、compoの実行後のtsとmodelの途中のtsはひとつずれているということ。
+
+ここまではplay-kamnagi.lispできた。
+
+次は
+1. csvファイルに出力する。
+2. 項目名をつける
+3. datetime 文字列を生成する
+　　formatをあえる。y,m,d,h,mm,ss,msのようなキーワード。
+　　順番に生成する。
+　　　・月によって日数がかわる。m,dの桁あがり。
+　　　・閏年がある。
+
 
 
 
