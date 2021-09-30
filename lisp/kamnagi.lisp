@@ -21,9 +21,9 @@
 
 (defmacro defcompo (name compof inputs outputs)
   `(progn 
-    (defun ,name ()
+    (defun ,name (ts)
       (let ((args (get-befores ',inputs)))
-        (multiple-value-setq ,outputs (apply ,compof args))
+        (multiple-value-setq ,outputs (apply ,compof (cons ts args)))
       )
     )
     (pushnew ',name *compolist*)
@@ -34,8 +34,8 @@
   )
 )
 
-(defun step-compo (name)
-  (apply name ()); how to write compo about value from before
+(defun step-compo (ts name)
+  (apply name (list ts)); how to write compo about value from before
 )
 
 (defun set-before-compo (co)
@@ -51,11 +51,11 @@
 )
 
 ;; step-model 
-(defun step-model (model)
+(defun step-model (ts model)
   (progn
     (set-before-model model)
     (loop for compo in model do
-      (step-compo compo)  
+      (step-compo ts compo)  
     )
   )
 )
@@ -67,16 +67,38 @@
 
 (defun nstep-model (maxtime ports model)
   (let ((logs ()))
-    (loop for i from 1 to maxtime do
-      (step-model model)
-      (push (collect-value ports)  logs)
+    (loop for ts from 1 to maxtime do
+      (step-model ts model)
+      (push (cons ts (collect-value ports))  logs)
     )
     (reverse logs)
   )
 )
 
+;; write csv
+(defun stringify-alog (log)
+  (format nil "~d~{,~d~}" (car log)(cdr log))
+)
 
+(defun stringify-logs (logs csvfile)
+  (loop for log in logs collect
+    (stringify-alog log)
+  )
+)
 
+(defun write-logs (fname names logs)
+  (with-open-file (out fname
+      :direction :output
+      :if-exists :supersede)
+     (format out (stringify-alog names))
+     (format out "~%")
+ 
+     (loop for log in logs do 
+       (format out (stringify-alog log) )
+       (format out "~%")
+     )
+  )
+)
 
 
 ;;; check graph
