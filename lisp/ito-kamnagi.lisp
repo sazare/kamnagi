@@ -10,7 +10,7 @@
   (defport yyy 10)
   (defport zzz 0)
   (defport www 0)
-  (defun fff (ts x y) (values (list x y)(list y x)))
+  (defun fff (tix x y) (values (list x y)(list y x)))
   
   (defcompo co1 #'fff (xxx yyy) (zzz www) )
 
@@ -29,7 +29,7 @@
   (defport a1 0)
   (defport aux 1)
 
-  (defun plus2 (ts x y) (values (+ x y)))
+  (defun plus2 (tix x y) (values (+ x y)))
   
   (defcompo counter #'plus2 (a1 aux) (a1))
 
@@ -54,9 +54,9 @@
   (defport p3 0)
   (defport p4 0)
 
-  (defun c1(ts x) (values (* x 2)))
-  (defun c2(ts x) (values (* x 3)))
-  (defun c3(ts x) (values (* x 5)))
+  (defun c1(tix x) (values (* x 2)))
+  (defun c2(tix x) (values (* x 3)))
+  (defun c3(tix x) (values (* x 5)))
   
   (defcompo m1 #'c1(p1) (p2))
   (defcompo m2 #'c2(p2) (p3))
@@ -92,9 +92,9 @@
   (defport p3r 0)
   (defport p4r 0)
 
-  (defun c1r(ts x) (values (* x 2)))
-  (defun c2r(ts x) (values (* x 3)))
-  (defun c3r(ts x) (values (* x 5)))
+  (defun c1r(tix x) (values (* x 2)))
+  (defun c2r(tix x) (values (* x 3)))
+  (defun c3r(tix x) (values (* x 5)))
   
   (defcompo m1r #'c1r(p1r) (p2r))
   (defcompo m2r #'c2r(p2r) (p3r))
@@ -130,9 +130,9 @@
   (defport p23 0)
   (defport p24 0)
 
-  (defun c21(ts x) (values (* x 2)))
-  (defun c22(ts x) (values (* x 3)))
-  (defun c23(ts x y) (values (* y x 5)))
+  (defun c21(tix x) (values (* x 2)))
+  (defun c22(tix x) (values (* x 3)))
+  (defun c23(tix x y) (values (* y x 5)))
   
   (defcompo m21 #'c21(p21) (p22))
   (defcompo m22 #'c22(p22) (p23))
@@ -161,17 +161,17 @@
 )
 
 (defito ito-loop1()
-  "loop with ts"
-  (defport ts  1)
+  "loop with tix"
+  (defport tix  1)
   (defport p31 10)
   (defport p32 0)
   (defport p33 0)
   (defport p34 0)
   (defport p35 0)
 
-  (defun c31(ts x) (values (* ts x 2)))
-  (defun c32(ts x) (values (* ts x 3)))
-  (defun c33(ts x y) (values (* ts y) (* ts y x 5)))
+  (defun c31(tix x) (values (* tix x 2)))
+  (defun c32(tix x) (values (* tix x 3)))
+  (defun c33(tix x y) (values (* tix y) (* tix y x 5)))
 
 ;; p32 and p33's refered previous value
   (defcompo m31 #'c31(p31) (p32))
@@ -208,7 +208,7 @@
   (intend-equal "3rd step p34" 72000 p34)
   (intend-equal "3rd step p35" 120 p35)
 ;
-;  (intend-equal "4th step p30" 4 ts)
+;  (intend-equal "4th step p30" 4 tix)
   (step-model 4 mod31)
   (intend-equal "4th step p31" 10 p31)
   (intend-equal "4th step p32" 80 p32)

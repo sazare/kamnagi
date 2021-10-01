@@ -1,7 +1,7 @@
 (load "load-kamnagi.lisp")
 
-  "loop with ts"
-  (defport ts  1)
+  "loop with tix"
+  (defport tix  1)
   (defport p31 10)
   (defport p32 0)
   (defport p33 0)
@@ -9,9 +9,9 @@
   (defport p35 0)
 
 ;  (defun c30(x) (values (+ x 1)))
-  (defun c31(ts x) (values (* ts x 2)))
-  (defun c32(ts x) (values (* ts x 3)))
-  (defun c33(ts x y) (values (* ts y) (* ts y x 5)))
+  (defun c31(tix x) (values (* tix x 2)))
+  (defun c32(tix x) (values (* tix x 3)))
+  (defun c33(tix x y) (values (* tix y) (* tix y x 5)))
 
 ;; p32 and p33's refered previous value
   (defcompo m31 #'c31(p31) (p32))
@@ -23,5 +23,5 @@
 
 (defvar logs  (nstep-model 10  '(P31 P32 P33 P34 P35) mod31))
 
-(write-logs "aaa.csv" '(ts one two three four five) logs)
+(write-logs "aaa.csv" '(tix one two three four five) logs)
 

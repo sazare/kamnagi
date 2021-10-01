@@ -21,9 +21,9 @@
 
 (defmacro defcompo (name compof inputs outputs)
   `(progn 
-    (defun ,name (ts)
+    (defun ,name (tix)
       (let ((args (get-befores ',inputs)))
-        (multiple-value-setq ,outputs (apply ,compof (cons ts args)))
+        (multiple-value-setq ,outputs (apply ,compof (cons tix args)))
       )
     )
     (pushnew ',name *compolist*)
@@ -34,8 +34,8 @@
   )
 )
 
-(defun step-compo (ts name)
-  (apply name (list ts)); how to write compo about value from before
+(defun step-compo (tix name)
+  (apply name (list tix)); how to write compo about value from before
 )
 
 (defun set-before-compo (co)
@@ -51,11 +51,11 @@
 )
 
 ;; step-model 
-(defun step-model (ts model)
+(defun step-model (tix model)
   (progn
     (set-before-model model)
     (loop for compo in model do
-      (step-compo ts compo)  
+      (step-compo tix compo)  
     )
   )
 )
@@ -67,9 +67,9 @@
 
 (defun nstep-model (maxtime ports model)
   (let ((logs ()))
-    (loop for ts from 1 to maxtime do
-      (step-model ts model)
-      (push (cons ts (collect-value ports))  logs)
+    (loop for tix from 1 to maxtime do
+      (step-model tix model)
+      (push (cons tix (collect-value ports))  logs)
     )
     (reverse logs)
   )
