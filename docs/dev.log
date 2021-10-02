@@ -160,4 +160,29 @@ datetimeの生成はややこしい。ので、分割して作っていく。
 
 
 
+2021/10/03日
+・乱数関係はquicklispでcl-randistというのがあった。
+
+thanks to https://github.com/lvaruzza/cl-randist
+
+　このソースの中のtests.lispを動かすとなにかできている。
+  (ql:quickload "cl-randist")
+　(in-packakge :randist)で使える
+　どの関数で正規分布での乱数発生できるのか不明。
+　(load "tests.lisp")の中にtest-distがあって、平均と分散を見れるので
+  (gen-uniform 100)で、一様分布の乱数が10個作られる
+
+　tests.lispのコメントの中に正規分布ぽいのがある
+
+  (gen-normal 10)で10個作れるが、平均と分散の指定はできないみたい。
+
+ (defun gen-normal (&optional (n 100))
+  (genlist #'(lambda (x) (declare (ignore x)) (random-normal)) n))
+
+　1個だけ平均、分散を指定して乱数を作る関数はこれ。
+　平均100、分散10の正規分布での乱数は
+　 (random-normal 100.0d0 10d0)
+　で計算できる。数字末尾のd0は、double floatを示す
+　
+  (random-uniform)もあるが、こちらは引数なし。
 
