@@ -186,3 +186,15 @@ thanks to https://github.com/lvaruzza/cl-randist
 　
   (random-uniform)もあるが、こちらは引数なし。
 
+2021/10/07木
+・datetimeの生成(制限付き)を作った
+　うるう年とか大の月小の月などは無視し、year-monの部分は固定で日以下だけをインクリメントする
+day.lispを作った。
+
+・day+dayは作ったが、day-dayは逆向きのキャリーが発生するので未対応。
+　当初の制約条件的な正規化のほうがよかっただろうか。
+
+・モデルを作ってみる。
+   model101.JPG
+
+

@@ -5,8 +5,8 @@
 ; day hour min sec
 ;(defparameter maxes '(0 24 60 60))
 (defparameter maxes '(60 60 24 0))
-
 ;(day hour min sec)
+(defparameter maxes '(60 60 24 0 0 0))
 
 (defun norm-day0 (da)
   (loop for c in da
