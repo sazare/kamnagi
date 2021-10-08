@@ -73,3 +73,38 @@
   (format nil "~4,'0d-~2,'0d-~2,'0d ~2,'0d:~2,'0d:~0,'0d" 
     (nth 0 year)(nth 1 year)(nth 2 year) (nth 3 year)(nth 4 year)(nth 5 year))
 )
+
+;;; replace-cal
+
+(defun replace-cal (log start delta)
+  (let (n cal clog)
+    (setf n (length log))
+    (setf cal (create-ts n '(1982 2 25 22 20 0) '(0 0 0 0 20 0)))
+    (setf clog (loop for l in log as d in cal collect (cons (format-year d) (cdr l))))
+    clog)
+)
+
+;;; uruu year(leap year)
+;; (isuruu year) then maxes.month[2] == 30 
+;; (not (isuruu year)) then maxes.month[2] == 29
+
+(defun isuruu (year)
+  (cond 
+    ((eq 0 (mod year 400)) T)
+    ((eq 0 (mod year 100)) NIL)
+    ((eq 0 (mod year 4)) T)
+    (T NIL)
+  ) 
+)
+
+
+;;; month maxes
+(defun monthmax (month year)
+  (cond
+    ((member month '(1 3 5 7 8 10 12)) 31)
+    ((member month '(4 6 9 11)) 30)
+    (t 
+     (if (isuruu year) 29 30)
+    )
+  )
+)

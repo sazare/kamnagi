@@ -64,9 +64,52 @@
   (intend-equal "format year" "1982-02-26 01:00:0" (format-year  '(1982 2 26 1 0 0)))
 )
 
+(defito ito-uruu ()
+  "check uruu year"
+  (intend-f "normal" (isuruu 3))
+  (intend-t "0" (isuruu 0))
+  (intend-t "4" (isuruu 4))
+
+  (intend-t "mod400-1" (isuruu 400))
+  (intend-t "mod400-2" (isuruu 4000))
+  (intend-f "mod400-3" (isuruu 2200))
+
+  (intend-f "mod100-1" (isuruu 100))
+  (intend-f "mod100-2" (isuruu 101))
+  (intend-t "mod100-3" (isuruu 2220))
+  (intend-f "mod100-4" (isuruu 2200))
+
+  (intend-f "mod4-1" (isuruu 2201))
+  (intend-f "mod4-2" (isuruu 2202))
+  (intend-f "mod4-3" (isuruu 2203))
+  (intend-t "mod4-4" (isuruu 2204))
+)
+
+(defito ito-monmax ()
+  "max of monthmax"
+ (intend-equal "jan" 31 (monthmax 1 2021))
+ (intend-equal "march" 31 (monthmax 3 2021))
+ (intend-equal "april" 30 (monthmax 4 2021))
+ (intend-equal "may" 31 (monthmax 5 2021))
+ (intend-equal "june" 30 (monthmax 6 2021))
+ (intend-equal "july" 31 (monthmax 7 2021))
+ (intend-equal "august" 31 (monthmax 8 2021))
+ (intend-equal "sept" 30 (monthmax 9 2021))
+ (intend-equal "oct" 31 (monthmax 10 2021))
+ (intend-equal "nov" 30 (monthmax 11 2021))
+ (intend-equal "dec" 31 (monthmax 12 2021))
+ (intend-equal "feb n*400" 29 (monthmax 2 2000))
+ (intend-equal "feb other" 30 (monthmax 2 2003))
+ (intend-equal "feb n*4" 29 (monthmax 2 2004))
+ (intend-equal "feb n*100" 30 (monthmax 2 2100))
+)
+
 (ito-day)
 (ito-parse-day)
 (ito-plus-days)
 (ito-create-ts)
 (ito-year)
+(ito-uruu)
+(ito-monmax)
+
 

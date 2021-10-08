@@ -1,0 +1,58 @@
+;;; about date and time increments
+;;;; UNIMPLEMENTED note
+
+;;; no month, year and no less sec
+
+;; (sec min hour day)
+; about increments
+; case 15 sec
+; case 20 min
+; case 2 hour
+; case 5 day
+; case ignore less sec
+; case ignore less min
+; case ignore less hour
+
+;; case increments 80 min (= 1hour and 20min)
+;  in this case, less min sec will be zero sec.
+
+
+;; case what is differ increments 2 hour and all min, sec are 0.
+;;  120 min and 0 sec
+;;  
+;; from 0min to 5min almost equal 0min to 4min59sec
+
+3m10s + 1m,
+3m10s + 35s,
+3m + 30s,
+3m + 1m20s,
+
+[m:s]
+3:00 + 1:00
+3:00 + 1:15
+43:00 + 1:15
+
+3:10 + 0:20:05 
+=> 3:10:00 + 0:20:50
+=> 00:03:10 + 00:20:05
+
+α+Δ
+
+
+;type (day hour min sec)
+;max (0 24 60 60) ; 0 means no limit
+
+
+
+
+
+
+
+
+
+
+
+
+
+; case interval may distribue normal 
+

@@ -3,3 +3,5 @@
 
 (load "kamnagi.lisp")
 
+(load "day.lisp")
+

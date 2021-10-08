@@ -91,7 +91,7 @@
       :direction :output
       :if-exists :supersede)
      (format out (stringify-alog names))
-     (format out "~%")
+     (format out "~%i")
  
      (loop for log in logs do 
        (format out (stringify-alog log) )
