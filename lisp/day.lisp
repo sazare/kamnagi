@@ -79,7 +79,7 @@
 (defun replace-cal (log start delta)
   (let (n cal clog)
     (setf n (length log))
-    (setf cal (create-ts n '(1982 2 25 22 20 0) '(0 0 0 0 20 0)))
+    (setf cal (create-ts n start delta)) ;;; '(1982 2 25 22 20 0) '(0 0 0 0 20 0)))
     (setf clog (loop for l in log as d in cal collect (cons (format-year d) (cdr l))))
     clog)
 )
@@ -104,7 +104,7 @@
     ((member month '(1 3 5 7 8 10 12)) 31)
     ((member month '(4 6 9 11)) 30)
     (t 
-     (if (isuruu year) 29 30)
+     (if (isuruu year) 30 29)
     )
   )
 )
