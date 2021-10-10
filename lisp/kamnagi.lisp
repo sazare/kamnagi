@@ -35,7 +35,8 @@
 )
 
 (defun step-compo (tix name)
-  (apply name (list tix)); how to write compo about value from before
+  "how to write compo about value from before"
+  (apply name (list tix))
 )
 
 (defun set-before-compo (co)
