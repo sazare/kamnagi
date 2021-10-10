@@ -1,14 +1,7 @@
 ;;;; day manipulation
 ;; sazare 20211005
 
-;;;; day specific
-; day hour min sec
-;(defparameter maxes '(0 24 60 60))
-(defparameter maxes '(60 60 24 0))
-;(day hour min sec)
-(defparameter maxes '(60 60 24 0 0 0))
-
-(defun norm-day0 (da)
+(defun norm-day0 (da maxes)
   (loop for c in da
     with v = 0 and o = 0
       as m in maxes
@@ -23,25 +16,26 @@
   )
 )
 
-(defun norm-day (da) (reverse (norm-day0 (reverse da))))
+(defun norm-day (da maxes) (reverse (norm-day0 (reverse da)(reverse  maxes))))
 
 ;;; (f day1 day2) map f on (d1 d2) in (day1 day2)
-(defun plus-day (day1 day2)
+(defun plus-day (day1 day2 maxes)
   (norm-day 
     (loop for d1 in day1 as d2 in day2 collect
       (+ d1 d2)
     )
+    maxes
   )
 )
 
 ;; create n timestamp from startday countup delta day
 ;;
 
-(defun create-ts (n start delta)
+(defun create-ts (n start delta maxes)
   (loop 
     with sday = start and tslist = (list start)
     for i from 1 to n do
-      (setf sday (plus-day sday delta))
+      (setf sday (plus-day sday delta maxes))
       (push sday tslist)
     finally 
       (return (reverse tslist))
@@ -51,18 +45,19 @@
 ;;; string to day
 ;;; "3 12:22:33" => (3 12 12 33)
 
-(defun split-day (x str)
-  (let ((pos (search x str))
-        (size (length x)))
-    (if pos
-      (cons (read-from-string (subseq str 0 pos))
-            (split-day x (subseq str (+ pos size))))
-      (list (read-from-string str))))
-)
-
-(defun parse-day (str)
-  (norm-day (split-day ":" str))
-)
+;(defun split-day (x str)
+;  (let ((pos (search x str))
+;        (size (length x)))
+;    (if pos
+;      (cons (read-from-string (subseq str 0 pos))
+;            (split-day x (subseq str (+ pos size))))
+;      (list (read-from-string str))))
+;)
+;
+;(defun parse-day (str)
+;  (norm-day (split-day ":" str))
+;)
+;
 
 ;;; day -> string
 (defun format-day (day)
@@ -76,10 +71,10 @@
 
 ;;; replace-cal
 
-(defun replace-cal (log start delta)
+(defun replace-cal (log start delta maxes)
   (let (n cal clog)
     (setf n (length log))
-    (setf cal (create-ts n start delta)) ;;; '(1982 2 25 22 20 0) '(0 0 0 0 20 0)))
+    (setf cal (create-ts n start delta maxes)) ;;; '(1982 2 25 22 20 0) '(0 0 0 0 20 0)))
     (setf clog (loop for l in log as d in cal collect (cons (format-year d) (cdr l))))
     clog)
 )
@@ -101,10 +96,26 @@
 ;;; month maxes
 (defun monthmax (month year)
   (cond
-    ((member month '(1 3 5 7 8 10 12)) 31)
-    ((member month '(4 6 9 11)) 30)
+    ((member month '(0 2 4 6 7 9 11)) 31)
+    ((member month '(3 5 8 10)) 30)
     (t 
-     (if (isuruu year) 30 29)
+     (if (isuruu year) 29 28)
     )
   )
 )
+
+
+;;; normalize datetime with uruu
+
+(defun month-maxtable (dt)
+  (list 0 12 (monthmax (cadr dt) (car dt)) 24 60 60)
+)
+
+(defun norm-dt (dt mtable)
+  (norm-day dt mtable)
+)
+
+(defun normalize-dt (dt)
+  (norm-dt dt (month-maxtable dt))
+)
+
