@@ -328,19 +328,8 @@ day1とday2の年が違っていたら、たとえばplus-dayしたとき、3ヶ
 
 (normalize-dt dt)で、
 
+・(format-year)で月と日に+1するようにした。
+・model101.lispを調整した。
 
-
-
-
-
-
-
-
-　　ここらへんを混乱していたようなきがする。
-
-　　1kkk
-
-
-　　
-
+・2行目先頭のiは、write-logのformatのミス
 

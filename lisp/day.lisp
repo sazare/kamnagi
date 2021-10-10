@@ -31,11 +31,11 @@
 ;; create n timestamp from startday countup delta day
 ;;
 
-(defun create-ts (n start delta maxes)
+(defun create-ts (n start delta) 
   (loop 
     with sday = start and tslist = (list start)
     for i from 1 to n do
-      (setf sday (plus-day sday delta maxes))
+      (setf sday (plus-day sday delta (month-maxtable sday)))
       (push sday tslist)
     finally 
       (return (reverse tslist))
@@ -66,15 +66,15 @@
 
 (defun format-year (year)
   (format nil "~4,'0d-~2,'0d-~2,'0d ~2,'0d:~2,'0d:~0,'0d" 
-    (nth 0 year)(nth 1 year)(nth 2 year) (nth 3 year)(nth 4 year)(nth 5 year))
+    (nth 0 year)(+ (nth 1 year) 1)(+ (nth 2 year) 1) (nth 3 year)(nth 4 year)(nth 5 year))
 )
 
 ;;; replace-cal
 
-(defun replace-cal (log start delta maxes)
-  (let (n cal clog)
+(defun replace-cal (log start delta )
+  (let (n cal clog )
     (setf n (length log))
-    (setf cal (create-ts n start delta maxes)) ;;; '(1982 2 25 22 20 0) '(0 0 0 0 20 0)))
+    (setf cal (create-ts n start delta)) 
     (setf clog (loop for l in log as d in cal collect (cons (format-year d) (cdr l))))
     clog)
 )
